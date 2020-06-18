@@ -1,16 +1,28 @@
 "use strict"
-// const pfr_api_url = 'http://iris.uat.pfr.co.nz:8800/api/people?family_name__icontains='
-const pfr_api_url = 'http://localhost:8006/api/people?family_name__icontains='
+
+
+let pfrApiUrl = function pfrApiUrll() {
+  return pfrApiUrll.local 
+  ? 'http://localhost:8006/api/people?family_name__icontains='
+  : 'http://iris.uat.pfr.co.nz:8800/api/people?family_name__icontains='
+}
+pfrApiUrl.local = false
+
 const pfr_api_token = "Token 6c4cc8dca733ee76869d5096ad0dfeae5231eb2c"
 
 // find page elements
 const nameSearch = document.getElementById('nameSearch')
 const personResults = document.getElementById('personResults');
+const toggleLocal = document.getElementById('uselocalhost')
 // Set up our HTTP request
 const xhr = new XMLHttpRequest();
 
 // hook input field to handler
 nameSearch.addEventListener('input', updateValue);
+toggleLocal.addEventListener('change', (event) => {
+  pfrApiUrl.local = event.target.checked
+  console.log('local', pfrApiUrl.local, pfrApiUrl())
+});
 
 function processNames(res) {
   if (res.count > 0 ) {
@@ -32,7 +44,8 @@ function updateValue(e) {
   // The first argument is the post type (GET, POST, PUT, DELETE, etc.)
   // The second argument is the endpoint URL
   resetResponse(personResults)
-  const query = pfr_api_url + e.target.value
+  
+  const query = pfrApiUrl() + e.target.value
   xhr.open('GET', query);
   xhr.setRequestHeader('Authorization', pfr_api_token)
   xhr.send();
