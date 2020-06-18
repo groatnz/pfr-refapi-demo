@@ -1,27 +1,27 @@
 "use strict"
 
-let pfrApiUrl = function pfrApiUrll() {
+let pfrApiUrl = function pfrApiUrll(path) {
   return pfrApiUrll.local 
-  ? 'http://localhost:8006/api/people?family_name__icontains='
+  ? 'http://localhost:8006' + path
   : 'http://iris.uat.pfr.co.nz:8800/api/people?family_name__icontains='
 }
 pfrApiUrl.local = false
 
 const pfr_api_token = "Token 6c4cc8dca733ee76869d5096ad0dfeae5231eb2c"
 
-// find page elements
-const nameSearch = document.getElementById('nameSearch')
-const personResults = document.getElementById('personResults');
-const toggleLocal = document.getElementById('uselocalhost')
-// Set up our HTTP request
-const xhr = new XMLHttpRequest();
 
-// hook input field to handler
-nameSearch.addEventListener('input', updateValue);
+// hook localhost test checkbox to handler
+const toggleLocal = document.getElementById('uselocalhost')
 toggleLocal.addEventListener('change', (event) => {
   pfrApiUrl.local = event.target.checked
   console.log('local', pfrApiUrl.local, pfrApiUrl())
 });
+
+// find page elements for name search
+const nameSearch = document.getElementById('nameSearch')
+nameSearch.addEventListener('input', handlePersonSearch);
+const personResults = document.getElementById('personResults');
+const personrequest = new XMLHttpRequest();
 
 function processNames(res) {
   if (res.count > 0 ) {
@@ -34,19 +34,19 @@ function processNames(res) {
   }
 }
 
-function updateValue(e) {
+function handlePersonSearch(e) {
   resetResponse(personResults)
   
-  const query = pfrApiUrl() + e.target.value
-  xhr.open('GET', query);
-  xhr.setRequestHeader('Authorization', pfr_api_token)
-  xhr.send();
+  const query = pfrApiUrl('/api/people?family_name__icontains=') + e.target.value
+  personrequest.open('GET', query);
+  personrequest.setRequestHeader('Authorization', pfr_api_token)
+  personrequest.send();
 }
 // Setup our listener to process completed requests
-xhr.onload = () => {
-	if (xhr.status >= 200 && xhr.status < 300) {
+personrequest.onload = () => {
+	if (personrequest.status >= 200 && personrequest.status < 300) {
 		// This will run when the request is successful
-    const json = JSON.parse(xhr.response)
+    const json = JSON.parse(personrequest.response)
     processNames(json)
     // console.log('success!', json);
 	} else {
@@ -55,6 +55,46 @@ xhr.onload = () => {
 	}
 };
 
+
+// Project search
+const projectSearch = document.getElementById('projectSearch')
+projectSearch.addEventListener('input', handleProjectSearch);
+const projectResults = document.getElementById('projectResults');
+const projectrequest = new XMLHttpRequest();
+
+function handleProjectSearch(e) {
+  resetResponse(projectResults)
+  
+  const query = pfrApiUrl('/api/projects/?search=') + e.target.value
+  projectrequest.open('GET', query);
+  projectrequest.setRequestHeader('Authorization', pfr_api_token)
+  projectrequest.send();
+}
+
+// Setup our listener to process completed requests
+projectrequest.onload = () => {
+	if (projectrequest.status >= 200 && projectrequest.status < 300) {
+		// This will run when the request is successful
+    const json = JSON.parse(projectrequest.response)
+    processProjects(json)
+    // console.log('success!', json);
+	} else {
+		// This will run when it's not
+		appendResponse(projectResults, 'The request failed!');
+	}
+};
+
+function processProjects(res) {
+  if (res.count > 0 ) {
+    console.log(res)
+    for (let item of res.results) {
+      const name = `${item.local_project_identifier} ${item.project_title}` 
+      appendLi(projectResults, name)
+    }
+  } else {
+    appendP(projectResults, 'no results')
+  }
+}
 function resetResponse(target) {
   target.innerHTML = ''
 }

@@ -14,19 +14,27 @@
     <script src="app.js" defer></script>
   </head>
   <body>
-    <main class="wrapper">
-      <section id='people' class="container">
+    <main class="wrapper" >
+      <section id='preamble' class="container">
         <h1>PFR Reference API Test</h1>
         <input type="checkbox" id="uselocalhost" name="uselocalhost" >
         <label style="display:inline" for="uselocalhost">Use Localhost API server</label>
         
+      </section>
+      <section id='people' class="container">
         <h2>Person Picker</h2>
-        
-        <input type="search" id="nameSearch" name="nameSearch" autofocus required
-          placeholder="start typing"
-          minlength="4" maxlength="8" size="20"
+        <input type="search" id="nameSearch" name="nameSearch" 
+          autofocus 
+          placeholder="surname" size="30"
           >
         <ul class='tight' id="personResults"></ul>
+      </section>
+      <section id='projects' class="container">
+        <h2>Project Picker</h2>
+        <input type="search" id="projectSearch" name="projectSearch" 
+          placeholder="project code or keyword" size="30"
+          >
+        <ul class='tight' id="projectResults"></ul>
     </section>
   </main>
 </html>
