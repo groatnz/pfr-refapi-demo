@@ -1,6 +1,5 @@
 "use strict"
 
-
 let pfrApiUrl = function pfrApiUrll() {
   return pfrApiUrll.local 
   ? 'http://localhost:8006/api/people?family_name__icontains='
@@ -26,11 +25,9 @@ toggleLocal.addEventListener('change', (event) => {
 
 function processNames(res) {
   if (res.count > 0 ) {
-    const names = res.results.map( item => {
-      return `${item.given_name} ${item.other_given_names?`${item.other_given_names} `:''}${item.family_name}` 
-    })
-    for (let n of names) {
-      appendLi(personResults, n)
+    for (let item of res.results) {
+      const name = `${item.given_name} ${item.other_given_names?`${item.other_given_names} `:''}${item.family_name}` 
+      appendLi(personResults, name)
     }
   } else {
     appendP(personResults, 'no results')
@@ -38,11 +35,6 @@ function processNames(res) {
 }
 
 function updateValue(e) {
-  // results.textContent = e.target.value;
-  // appendResponse(results, e.target.value)
-  // Create and send a GET request
-  // The first argument is the post type (GET, POST, PUT, DELETE, etc.)
-  // The second argument is the endpoint URL
   resetResponse(personResults)
   
   const query = pfrApiUrl() + e.target.value
