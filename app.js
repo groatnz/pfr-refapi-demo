@@ -3,11 +3,11 @@
 let pfrApiUrl = function pfrApiUrll(path) {
   return pfrApiUrll.local 
   ? 'http://localhost:8006' + path
-  : 'http://iris.uat.pfr.co.nz:8800/api/people?family_name__icontains='
+  : 'http://iris.uat.pfr.co.nz:8800/api/people?search='
 }
 pfrApiUrl.local = false
 
-const pfr_api_token = "Token 6c4cc8dca733ee76869d5096ad0dfeae5231eb2c"
+const pfr_api_token = "Token 770b67a2bf91b0e8af784112da2e277661f2772c"
 
 
 // hook localhost test checkbox to handler
@@ -86,7 +86,7 @@ projectrequest.onload = () => {
 
 function processProjects(res) {
   if (res.count > 0 ) {
-    console.log(res)
+    // console.log(res)
     for (let item of res.results) {
       const name = `${item.local_project_identifier} ${item.project_title}` 
       appendLi(projectResults, name)
