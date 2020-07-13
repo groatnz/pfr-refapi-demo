@@ -95,7 +95,7 @@ const projectrequest = new XMLHttpRequest();
 function handleProjectSearch(e) {
   resetResponse(projectResults)
   
-  const query = pfrApiUrl('/api/projects/?search=') + e.target.value
+  const query = pfrApiUrl('/api/projects/?super_or_sub=sub&search=') + e.target.value
   projectrequest.open('GET', query);
   projectrequest.setRequestHeader('Authorization', pfr_api_token)
   projectrequest.send();
