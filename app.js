@@ -67,7 +67,7 @@ function processNames(res) {
 function handlePersonSearch(e) {
   resetResponse(personResults)
   
-  const query = pfrApiUrl('/api/people?family_name__icontains=') + e.target.value
+  const query = pfrApiUrl('/api/people?search=') + e.target.value
   personrequest.open('GET', query);
   personrequest.setRequestHeader('Authorization', pfr_api_token)
   personrequest.send();
