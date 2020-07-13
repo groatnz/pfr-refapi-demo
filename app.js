@@ -1,9 +1,10 @@
 "use strict"
 
 let pfrApiUrl = function pfrApiUrll(path) {
-  return pfrApiUrll.local 
-  ? 'http://localhost:8006' + path
-  : 'http://iris.uat.pfr.co.nz:8800'
+  return (pfrApiUrll.local 
+  ? 'http://localhost:8006' 
+  : 'http://iris.uat.pfr.co.nz:8800')
+  + path
 }
 pfrApiUrl.local = false
 
