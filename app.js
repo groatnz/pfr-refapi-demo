@@ -3,7 +3,7 @@
 let pfrApiUrl = function pfrApiUrll(path) {
   return pfrApiUrll.local 
   ? 'http://localhost:8006' + path
-  : 'http://iris.uat.pfr.co.nz:8800/api/people?search='
+  : 'http://iris.uat.pfr.co.nz:8800'
 }
 pfrApiUrl.local = false
 
@@ -16,6 +16,35 @@ toggleLocal.addEventListener('change', (event) => {
   pfrApiUrl.local = event.target.checked
   console.log('local', pfrApiUrl.local, pfrApiUrl())
 });
+
+// login box
+const loginBtn = document.getElementById('loginBtn')
+loginBtn.addEventListener('click', handleLogin);
+const loginrequest = new XMLHttpRequest();
+
+function handleLogin(e) {
+  const usernameInput = document.getElementById('username')
+  const passwordInput = document.getElementById('password')
+
+  const username = usernameInput.value
+  const password = passwordInput.value
+  console.log('login', username, password )
+
+  const query = pfrApiUrl('/api/api-token-auth')
+  loginrequest.open('POST', query, true);
+  loginrequest.send(`username=${username}&password=${password}`);
+}
+// Setup our listener to process completed requests
+loginrequest.onload = () => {
+	if (loginrequest.status >= 200 && loginrequest.status < 300) {
+		// This will run when the request is successful
+    const json = JSON.parse(personrequest.response)
+    
+    console.log('success!', json);
+	} else {
+		// This will run when it's not
+	}
+};
 
 // find page elements for name search
 const nameSearch = document.getElementById('nameSearch')

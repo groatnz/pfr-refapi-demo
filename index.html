@@ -19,13 +19,23 @@
         <h1>PFR Reference API Test</h1>
         <input type="checkbox" id="uselocalhost" name="uselocalhost" >
         <label style="display:inline" for="uselocalhost">Use Localhost API server</label>
-        
+
+      </section>
+      <section id='people' class="container">
+        <h3>Log in to get API token</h3>
+        <div class="row">
+          <div class="column column-25" >
+            <input type="text" id="username" name="username" placeholder="username">
+            <input type="password" id="password" name="password" placeholder="password">
+            <button id="loginBtn">Log in</button>
+          </div>
+        </div>
       </section>
       <section id='people' class="container">
         <h2>Person Picker</h2>
         <input type="search" id="nameSearch" name="nameSearch" 
           autofocus 
-          placeholder="surname" size="30"
+          placeholder="name" size="30"
           >
         <ul class='tight' id="personResults"></ul>
       </section>
@@ -35,6 +45,19 @@
           placeholder="project code or keyword" size="30"
           >
         <ul class='tight' id="projectResults"></ul>
+    </section>
+
+    <section id="Help" class="container">
+      <h3>Enable Mixed Content</h3>
+      <p>This page is hosted on github using https. The PFR Reference API is on uat test under http. 
+        This means that the page will try to load content from an insecure source and this is blocked by default.
+      </p>
+        <h4>Enabling mixed content in Google Chrome</h4>
+        <ul>
+          <li>Click the lock or caution icon, then click Site settings.</li>
+          <li>Scroll to Insecure content, then use the drop-down list to change Block (default) to Allow.</li>
+        </ul>
+      </p>
     </section>
   </main>
 </html>

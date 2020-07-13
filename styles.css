@@ -4,3 +4,7 @@ ul.tight li {
   margin-bottom: 0;
   margin-left:1rem;
 }
+
+section.container {
+  margin-bottom: 2em;
+}
