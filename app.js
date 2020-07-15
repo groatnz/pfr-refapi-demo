@@ -3,7 +3,7 @@
 let pfrApiUrl = function pfrApiUrll(path) {
   return (pfrApiUrll.local 
   ? 'http://localhost:8006' 
-  : 'http://iris.uat.pfr.co.nz:8800')
+  : 'https://datahub.plantandfood.co.nz/iris')
   + path
 }
 pfrApiUrl.local = false
